@@ -21,13 +21,11 @@ router.get('/', isLogin, (req, res) => {
   boardDB.getAllArticles((data) => {
     const ARTICLE = data;
     const articleCounts = ARTICLE.length;
-    const { userId } = req.session.userId;
-    console.log(req.session);
-    console.log(userId);
+
     res.render('db_Board', {
       ARTICLE,
       articleCounts,
-      userId,
+      userId: req.session.userId,
     });
   });
 });
