@@ -7,8 +7,7 @@ router.get('/', (req, res) => {
     expires: new Date(Date.now() + 1000 * 60),
     httpOnly: true,
   });
-  console.log(req.cookies);
-  res.render('index');
+  res.render('cookie', { alert: req.cookies.alert });
 });
 
 module.exports = router;

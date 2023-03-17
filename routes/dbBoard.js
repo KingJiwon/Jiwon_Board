@@ -3,22 +3,42 @@ const boardDB = require('../controllers/boardController');
 
 const router = express.Router();
 
+// 로그인 확인 미들웨어
+function isLogin(req, res, next) {
+  if (req.session.login) {
+    next();
+  } else {
+    res
+      .status(400)
+      .send(
+        '로그인이 필요한 서비스입니다.</br><a href="/login">로그인 페이지로 이동</a>',
+      );
+  }
+}
+
 // 게시판 페이지 호출
-router.get('/', (req, res) => {
+router.get('/', isLogin, (req, res) => {
   boardDB.getAllArticles((data) => {
     const ARTICLE = data;
     const articleCounts = ARTICLE.length;
-    res.render('db_Board', { ARTICLE, articleCounts });
+    const { userId } = req.session.userId;
+    console.log(req.session);
+    console.log(userId);
+    res.render('db_Board', {
+      ARTICLE,
+      articleCounts,
+      userId,
+    });
   });
 });
 
 // 글쓰기 페이지 호출
-router.get('/write', (req, res) => {
+router.get('/write', isLogin, (req, res) => {
   res.render('db_board_write');
 });
 
 // 데이터 베이스에 글쓰기
-router.post('/write', (req, res) => {
+router.post('/write', isLogin, (req, res) => {
   if (req.body.title && req.body.content) {
     boardDB.wrtieArticle(req.body, (data) => {
       if (data.affectedRows >= 1) {
@@ -36,7 +56,8 @@ router.post('/write', (req, res) => {
   }
 });
 
-router.get('/modify/:id', (req, res) => {
+// 수정하기 페이지 호출
+router.get('/modify/:id', isLogin, (req, res) => {
   boardDB.getArticle(req.params.id, (data) => {
     if (data.length > 0) {
       res.render('db_board_modify', { selectedArticle: data[0] });
@@ -48,7 +69,8 @@ router.get('/modify/:id', (req, res) => {
   });
 });
 
-router.post('/modify/:id', (req, res) => {
+// 글 수정하기
+router.post('/modify/:id', isLogin, (req, res) => {
   if (req.body.title && req.body.content) {
     boardDB.modifyArticle(req.params.id, req.body, (data) => {
       if (data.affectedRows >= 1) {
@@ -66,7 +88,8 @@ router.post('/modify/:id', (req, res) => {
   }
 });
 
-router.delete('/delete/:id', (req, res) => {
+// 글 삭제하기
+router.delete('/delete/:id', isLogin, (req, res) => {
   if (req.params.id) {
     boardDB.deleteArticle(req.params.id, (data) => {
       if (data.affectedRows >= 1) {
@@ -84,7 +107,7 @@ router.delete('/delete/:id', (req, res) => {
   }
 });
 
-router.get('/getAll', (req, res) => {
+router.get('/getAll', isLogin, (req, res) => {
   boardDB.getAllArticles((data) => {
     res.send(data);
   });
