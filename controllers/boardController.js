@@ -12,7 +12,7 @@ const boardDB = {
   // 게시글 추가하기
   wrtieArticle: (newArticle, cb) => {
     connection.query(
-      `INSERT INTO mydb.board (TITLE, CONTENT) VALUES ('${newArticle.title}','${newArticle.content}')`,
+      `INSERT INTO mydb.board (USERID, TITLE, CONTENT) VALUES ('${newArticle.userId}','${newArticle.title}','${newArticle.content}')`,
       (err, data) => {
         if (err) throw err;
         cb(data);

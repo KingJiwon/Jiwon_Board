@@ -11,7 +11,7 @@ router.get('/cook', (req, res) => {
     maxAge: 1000 * 60 * 5,
     httpOnly: false,
   });
-  res.redirect('/');
+  res.status(200).json('쿠기 굽기 성공!');
 });
 
 module.exports = router;

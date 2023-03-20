@@ -4,24 +4,23 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const session = require('express-session');
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('dotenv').config();
 
 const app = express();
-const PORT = 4000;
+const { PORT } = process.env;
 
 app.use(cors());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('jiwon'));
 app.use(
   session({
     secret: 'jiwon',
     resave: false,
     saveUninitialized: true,
-    cookie: {
-      maxAge: 1000 * 60 * 60,
-    },
   }),
 );
 // ROUTES
