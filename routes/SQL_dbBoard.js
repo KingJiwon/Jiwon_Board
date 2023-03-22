@@ -1,5 +1,5 @@
 const express = require('express');
-const boardDB = require('../controllers/boardController');
+const boardDB = require('../controllers/SQL_boardController');
 
 const router = express.Router();
 

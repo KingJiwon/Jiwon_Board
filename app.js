@@ -28,10 +28,10 @@ const mainRouter = require('./routes'); // index.js 생략된 것
 const userRouter = require('./routes/users');
 const boardRouter = require('./routes/board');
 const dbRouter = require('./routes/db');
-const dbBoardRouter = require('./routes/dbBoard');
+const dbBoardRouter = require('./routes/MONGO_dbBoard');
 const cookieRouter = require('./routes/cookie');
-const registerRouter = require('./routes/register');
-const loginRouter = require('./routes/login');
+const registerRouter = require('./routes/MONGO_register');
+const loginRouter = require('./routes/MONGO_login');
 // MIDDLEWARE
 
 app.use('/', mainRouter);

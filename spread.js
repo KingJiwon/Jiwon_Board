@@ -50,9 +50,9 @@ const [first, ...rest] = arr3;
 console.log(first, rest);
 
 // 매개변수
-function spread(first, second, ...rest) {
-  console.log(first);
-  console.log(second);
-  console.log(rest);
+function spread(paramFirst, paramSecond, ...paramRest) {
+  console.log(paramFirst);
+  console.log(paramSecond);
+  console.log(paramRest);
 }
 spread(1, 2, 3, 4, 5, 6, 7);
