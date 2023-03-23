@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser } = require('../controllers/MONGO_userController');
+const { registerUser } = require('../controllers/MONGOOSE_userController');
 
 const router = express.Router();
 

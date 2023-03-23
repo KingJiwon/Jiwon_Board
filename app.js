@@ -13,6 +13,7 @@ const { PORT } = process.env;
 app.use(cors());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('jiwon'));
@@ -30,8 +31,8 @@ const boardRouter = require('./routes/board');
 const dbRouter = require('./routes/db');
 const dbBoardRouter = require('./routes/MONGO_dbBoard');
 const cookieRouter = require('./routes/cookie');
-const registerRouter = require('./routes/MONGO_register');
-const loginRouter = require('./routes/MONGO_login');
+const registerRouter = require('./routes/MONGOOSE_register');
+const loginRouter = require('./routes/MONGOOSE_login');
 // MIDDLEWARE
 
 app.use('/', mainRouter);

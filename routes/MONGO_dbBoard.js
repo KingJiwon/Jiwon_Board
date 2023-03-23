@@ -1,4 +1,7 @@
 const express = require('express');
+const multer = require('multer');
+const fs = require('fs');
+
 const {
   getAllArticles,
   wrtieArticle,
@@ -9,6 +12,23 @@ const {
 
 const router = express.Router();
 
+// 파일 업로드 설정
+const dir = './uploads';
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '_' + Date.now());
+  },
+});
+const limits = {
+  fileSize: 1024 * 1024 * 2,
+};
+
+const uploads = multer({ storage, limits });
+
+if (!fs.existsSync(dir)) fs.mkdirSync(dir);
 // 로그인 확인 미들웨어
 function isLogin(req, res, next) {
   if (req.session.login || req.signedCookies.user) {
@@ -31,13 +51,13 @@ router.get('/write', (req, res) => {
 });
 
 // 글쓰기
-router.post('/write', isLogin, wrtieArticle);
+router.post('/write', isLogin, uploads.single('img'), wrtieArticle);
 
 // 글 수정 모드로 이동
 router.get('/modify/:id', isLogin, getArticle);
 
 // 글 수정
-router.post('/modify/:id', isLogin, modifyArticle);
+router.post('/modify/:id', isLogin, uploads.single('img'), modifyArticle);
 
 // 글 삭제
 router.delete('/delete/:id', isLogin, deleteArticle);
